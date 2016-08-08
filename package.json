@@ -6,7 +6,6 @@
   "scripts": {
     "pretest": "eslint .",
     "test": "echo \"No test specified\"",
-    "start": "nodemon index.js",
     "example": "node example.js"
   },
   "repository": {
