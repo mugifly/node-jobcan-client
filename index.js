@@ -204,6 +204,24 @@ Client.prototype.getWorkSummariesInThisMonth = function (opt_options, callback) 
 };
 
 
+/**
+ * Get a work summary of all employees in this week
+ * @param  {Object}  [opt_options]  Optional paramters
+ * @param  {Client~getWorkSummariesCallback} callback    Callback function
+ */
+Client.prototype.getWorkSummariesInThisWeek = function (opt_options, callback) {
+
+	var self = this;
+
+	var date = new Date();
+	var start_date = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay(), 0, 0, 0);
+	var end_date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);
+
+	return self.getWorkSummariesInPeriod(start_date, end_date, opt_options, callback);
+
+};
+
+
 // ----
 
 /**
