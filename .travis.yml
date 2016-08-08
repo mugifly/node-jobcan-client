@@ -21,4 +21,4 @@ after_success:
   - cp docs/jobcan-client/*.*.*/* . -R
   - git add *.html && git add scripts/ && git add fonts/ && git add styles/
   - git commit -m 'Update documents'
-  - '[ "$TRAVIS_BRANCH" == "master" ] && [ $GITHUB_TOKEN ] && git push --quiet https://$GITHUB_TOKEN@github.com/mugifly/node-jobcan-client.git gh-pages 2> /dev/null'
+  - '[ "$TRAVIS_BRANCH" == "master" ] && [ $GITHUB_TOKEN ] && git push --quiet --force https://$GITHUB_TOKEN@github.com/mugifly/node-jobcan-client.git gh-pages 2> /dev/null'
