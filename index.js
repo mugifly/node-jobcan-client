@@ -141,6 +141,13 @@ Client.prototype.getWorkSummaries = function (opt_options, callback) {
 
 Client.prototype.getWorkSummariesInPerm = function (start_date, end_date, opt_options, callback) {
 
+	this.getWorkSummariesInPeriod(start_date, end_date, opt_options, callback);
+
+};
+
+
+Client.prototype.getWorkSummariesInPeriod = function (start_date, end_date, opt_options, callback) {
+
 	var self = this;
 
 	var options = extend({}, opt_options || {});
@@ -164,7 +171,7 @@ Client.prototype.getWorkSummariesInThisMonth = function (opt_options, callback) 
 	var start_date = new Date(date.getFullYear(), date.getMonth(), 1);
 	var end_date = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
-	return self.getWorkSummariesInPerm(start_date, end_date, opt_options, callback);
+	return self.getWorkSummariesInPeriod(start_date, end_date, opt_options, callback);
 
 };
 

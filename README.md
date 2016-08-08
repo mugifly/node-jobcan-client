@@ -10,6 +10,7 @@ Node.js module of an unofficial client library for [JobCan](http://jobcan.ne.jp/
 
 ## Notice
 
+* This module is published under testing phase.
 * This is an unofficial library for convenience of users and managers.
 * We don't guarantee about this library.
 * We don't have relationship with the company of [JobCan](http://jobcan.ne.jp/).
@@ -68,7 +69,7 @@ Get a work summary of all employees in this month.
 It's same with getWorkSummaries(...) method.
 
 
-### getWorkSummariesInPerm(start_date, end_date, opt_options, callback)
+### getWorkSummariesInPeriod(start_date, end_date, opt_options, callback)
 
 Get a work summary of all employees in the period.
 
