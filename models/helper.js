@@ -3,7 +3,7 @@ module.exports = {
 
 	removeSpaces: function (str) {
 
-		return str.replace(new RegExp(/(\s|&nbsp;)/, 'g'), '');
+		return str.replace(new RegExp(/(\s|&nbsp;)/g), '');
 
 	},
 

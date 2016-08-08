@@ -127,7 +127,7 @@ Client.prototype.getWorkSummaries = function (opt_options, callback) {
 				groupName: helper.removeSpaces($($tds[2]).text()),
 				workTime: helper.convertTimeStrToSeconds(helper.removeSpaces($($tds[3]).text())),
 				breakTime: helper.convertTimeStrToSeconds(helper.removeSpaces($($tds[4]).text())),
-				allowanceYen: ($($tds[5]).text() == '-') ? null : $($tds[5]).text().replace(new RegExp(/[^\d]/, 'g'), '')
+				allowanceYen: ($($tds[5]).text() == '-') ? null : $($tds[5]).text().replace(new RegExp(/[^\d]/g), '')
 			});
 
 		}
