@@ -17,5 +17,5 @@ after_success:
   - git checkout --orphan gh-pages
   - mv docs/jobcan-client/*.*.*/ .
   - git add -A
-  - git commit -m 'Change\: Update documents'
+  - git commit -m 'Update documents'
   - '[ "$TRAVIS_BRANCH" == "master" ] && [ $GITHUB_TOKEN ] && git push --quiet https://$GITHUB_TOKEN@github.com/mugifly/node-jobcan-client.git gh-pages 2> /dev/null'
