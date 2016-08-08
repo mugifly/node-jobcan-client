@@ -13,8 +13,10 @@ var helper = require(__dirname + '/models/helper');
 
 
 /**
- * Constructor
- * @param {Object} options  Options
+ * Initialize an object of Client
+ * @class JobCan Client
+ * @constructor
+ * @param {Object} [options]  Option parameters
  */
 var Client = function (options) {
 
@@ -30,10 +32,10 @@ var Client = function (options) {
 
 /**
  * Execution of authentication
- * @param  {String} company_id       [description]
- * @param  {String} group_manager_id [description]
- * @param  {String} password         [description]
- * @param  {Function} callback	- Callback function (error, session_id)
+ * @param  {String} company_id        Company ID of JobCan
+ * @param  {String} group_manager_id  Group Manager ID of JobCan
+ * @param  {String} password          Group Manager Password of JobCan
+ * @param  {Client~authCallback} [callback]	  Callback function
  */
 Client.prototype.auth = function (company_id, group_manager_id, password, callback) {
 
@@ -53,7 +55,8 @@ Client.prototype.auth = function (company_id, group_manager_id, password, callba
 		jar: true
 	}, function (err, res, body) {
 
-		if (err) return callback(err, null);
+		if (err && callback) return callback(err, null);
+		if (err) throw err;
 
 		var cookies = {};
 		var cookies_header = res.headers['set-cookie'].toString().split(/;/);
@@ -67,7 +70,7 @@ Client.prototype.auth = function (company_id, group_manager_id, password, callba
 
 		if (!cookies['sid']) return callback(new Error('Could not get session id'), null);
 
-		callback(null, cookies['sid']);
+		if (callback) callback(null, cookies['sid']);
 
 	});
 
@@ -76,6 +79,11 @@ Client.prototype.auth = function (company_id, group_manager_id, password, callba
 };
 
 
+/**
+ * Get the work summaries.
+ * @param  {Object}                   [Options]  Optinal parameters
+ * @param  {Client~getWorkSummariesCallback} callback   Callback function
+ */
 Client.prototype.getWorkSummaries = function (opt_options, callback) {
 
 	var self = this;
@@ -139,6 +147,14 @@ Client.prototype.getWorkSummaries = function (opt_options, callback) {
 };
 
 
+/**
+ * Get a work summary of all employees in the period
+ * @deprecated Use {@link Client#getWorkSummariesInPeriod}
+ * @param  {Date}   start_date    Start date
+ * @param  {Date}   end_date      End date
+ * @param  {Object}  [opt_options]  Optional paramters
+ * @param  {Client~getWorkSummariesCallback} callback    Callback function
+ */
 Client.prototype.getWorkSummariesInPerm = function (start_date, end_date, opt_options, callback) {
 
 	this.getWorkSummariesInPeriod(start_date, end_date, opt_options, callback);
@@ -146,6 +162,13 @@ Client.prototype.getWorkSummariesInPerm = function (start_date, end_date, opt_op
 };
 
 
+/**
+ * Get a work summary of all employees in the period
+ * @param  {Date}   start_date    Start date
+ * @param  {Date}   end_date      End date
+ * @param  {Object}  [opt_options]  Optional paramters
+ * @param  {Client~getWorkSummariesCallback} callback    Callback function
+ */
 Client.prototype.getWorkSummariesInPeriod = function (start_date, end_date, opt_options, callback) {
 
 	var self = this;
@@ -163,6 +186,11 @@ Client.prototype.getWorkSummariesInPeriod = function (start_date, end_date, opt_
 };
 
 
+/**
+ * Get a work summary of all employees in this month
+ * @param  {Object}  [opt_options]  Optional paramters
+ * @param  {Client~getWorkSummariesCallback} callback    Callback function
+ */
 Client.prototype.getWorkSummariesInThisMonth = function (opt_options, callback) {
 
 	var self = this;
@@ -175,6 +203,27 @@ Client.prototype.getWorkSummariesInThisMonth = function (opt_options, callback) 
 
 };
 
+
+// ----
+
+/**
+ * Callback of auth(...) method
+ * @callback Client~authCallback
+ * @param {Error} error         Error object (If something happened)
+ * @param {String} session_id   Session ID
+ */
+
+/**
+ * Callback of getWorkSummaries(...) method
+ * @callback Client~getWorkSummariesCallback
+ * @param {Error} error         Error object (If something happened)
+ * @param {Object[]} work_summaries   Array of work summaries
+ * @param {String} work_summaries[].name        Name of employee - e.g. 'Taro Tanaka'
+ * @param {String} work_summaries[].groupName   Group name of employee - e.g. 'Head Office'
+ * @param {String} work_summaries[].workTime    Working time (seconds) - e.g. 28800
+ * @param {String} work_summaries[].breakTime   Breaking time (seconds) - e.g. 3600
+ * @param {Number} work_summaries[].allowanceYen  Allowance of employee (YEN) - e.g. 10500
+ */
 
 // ----
 

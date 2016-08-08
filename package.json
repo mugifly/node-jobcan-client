@@ -6,7 +6,8 @@
   "scripts": {
     "pretest": "eslint .",
     "test": "echo \"No test specified\"",
-    "example": "node example.js"
+    "example": "node example.js",
+    "doc": "jsdoc . --destination docs/ --package package.json --readme README.md"
   },
   "repository": {
     "type": "git",
