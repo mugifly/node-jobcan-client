@@ -153,10 +153,10 @@ Client.prototype.getWorkSummariesInPeriod = function (start_date, end_date, opt_
 	var options = extend({}, opt_options || {});
 	options['fromYear'] = start_date.getFullYear();
 	options['fromMonth'] = start_date.getMonth() + 1;
-	options['fromDate'] = start_date.getDate();
+	options['fromDay'] = start_date.getDate();
 	options['toYear'] = end_date.getFullYear();
 	options['toMonth'] = end_date.getMonth() + 1;
-	options['toDate'] = end_date.getDate();
+	options['toDay'] = end_date.getDate();
 
 	return self.getWorkSummaries(options, callback);
 
