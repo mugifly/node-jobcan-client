@@ -7,7 +7,7 @@
     "pretest": "eslint .",
     "test": "echo \"No test specified\"",
     "example": "node example.js",
-    "doc": "jsdoc . --destination docs/ --package package.json --readme README.md"
+    "doc": "jsdoc . --destination docs/ --package package.json"
   },
   "repository": {
     "type": "git",

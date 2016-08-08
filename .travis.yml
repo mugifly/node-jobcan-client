@@ -14,8 +14,11 @@ script:
   - npm run doc
 
 after_success:
+  - git config user.name "Travis-CI"
+  - git config user.email "mugifly@github.io"
   - git checkout --orphan gh-pages
-  - mv docs/jobcan-client/*.*.*/ .
-  - git add -A
+  - git rm --cached -rf .
+  - cp docs/jobcan-client/*.*.*/* . -R
+  - git add *.html && git add scripts/ && git add fonts/ && git add styles/
   - git commit -m 'Update documents'
-  - '[ "$TRAVIS_BRANCH" == "master" ] && [ $GITHUB_TOKEN ] && git push --quiet https://$GITHUB_TOKEN@github.com/mugifly/node-jobcan-client.git gh-pages 2> /dev/null'
+  - '[ "$TRAVIS_BRANCH" == "ci" ] && [ $GITHUB_TOKEN ] && git push --quiet https://$GITHUB_TOKEN@github.com/mugifly/node-jobcan-client.git gh-pages 2> /dev/null'
