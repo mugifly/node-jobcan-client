@@ -1,11 +1,12 @@
 {
   "name": "jobcan-client",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Unofficial client library for JobCan",
   "main": "index.js",
   "scripts": {
     "pretest": "eslint .",
     "test": "echo \"No test specified\"",
+	"posttest": "npm run doc",
     "example": "node example.js",
     "doc": "jsdoc . --destination docs/ --package package.json"
   },
