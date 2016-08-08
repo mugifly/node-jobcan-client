@@ -1,0 +1,32 @@
+{
+  "name": "jobcan-client",
+  "version": "0.1.0",
+  "description": "Unofficial client library for JobCan",
+  "main": "index.js",
+  "scripts": {
+    "pretest": "eslint .",
+    "test": "echo \"No test specified\"",
+    "start": "nodemon index.js",
+    "example": "node example.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/mugifly/node-jobcan-client.git"
+  },
+  "keywords": [
+    "jobcan"
+  ],
+  "author": "Masanori Ohgita",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mugifly/node-jobcan-client/issues"
+  },
+  "homepage": "https://github.com/mugifly/node-jobcan-client#readme",
+  "dependencies": {
+    "cheerio": "^0.20.0",
+    "request": "^2.74.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.1.1"
+  }
+}
