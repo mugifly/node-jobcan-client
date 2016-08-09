@@ -6,9 +6,9 @@
   "scripts": {
     "pretest": "eslint .",
     "test": "echo \"No test specified\"",
-	"posttest": "npm run doc",
+    "posttest": "npm run doc",
     "example": "node example.js",
-    "doc": "jsdoc . --destination docs/ --package package.json"
+    "doc": "jsdoc . models/* --destination docs/ --package package.json --readme README.md --template node_modules/minami --verbose"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "eslint": "^3.1.1",
-    "jsdoc": "^3.4.0"
+    "jsdoc": "^3.4.0",
+    "minami": "^1.1.1"
   }
 }
