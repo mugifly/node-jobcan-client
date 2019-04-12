@@ -2,10 +2,6 @@ language: node_js
 node_js:
   - "6"
 
-env:
-  global:
-    secure: "hZzJc2cpeVhWDSk4nYlueC0+TEgO49RByLHLdzBhk1crHkPpUnV2AWrmYUhqi5tWE4BzHdZiDkM+157bVPTusWZrvJOAggql/z6u0WjbD/DMIrLEh1+l0nId8wN4UpqW+ezxeNm8nx3fUkrqYBFBW5tsMPHmM8isGURjJzZFD0ki6nazDOk1s5m7oXahdbNRoPWG290YObmuU9mnQQnSi039wV98Bix5g9UUJjC9Y1N6BRtdMA/P1nrtXn4rbe2TSRcZ7Vt2bDq0SfIpSP45dHfc0LyYbWjE6OMhiWCLml8pVkerGn7HgRuXQ3ZNcOosgX4j/eUVjVog4N3eITPi4FAnf76GiVLNCQIogBJTtifd2gftWmFOl92oTMs/8n40b6o7DfRm6y39l0fV/qSnPa2M2/TDUdLmBXpLwmIwGoHFnnIqVY64GabATc1RzVtAZwhej5x+vU4z1um4ifQslSnt99kgdinZBbP3jg0dXtZ8ESedflWS9Em6ntZdmOQKdN9CebMo9lJ0Y4sCyBxMXQHdVDsUmJR9Gd/CeIu7nIzxX7ypTKRmHGTpTYbZRYvGJxs2VZyhQatUOSfV3NIbRdA/GrOgPD/QnRc3UPAzt+wvCCIRKJFO4FyQPYBL9DwS7DbPNZSTperZdDTyIkyNF14gzM+CJxyFmkht2Xi+hHA="
-
 install:
   - npm install
 
@@ -14,11 +10,7 @@ script:
   - npm run doc
 
 after_success:
-  - git config user.name "Travis-CI"
-  - git config user.email "mugifly@github.io"
-  - git checkout --orphan gh-pages
-  - git rm --cached -rf .
-  - cp docs/jobcan-client/*.*.*/* . -R
-  - git add *.html && git add scripts/ && git add fonts/ && git add styles/
-  - git commit -m 'Update documents'
-  - '[ "$TRAVIS_BRANCH" == "master" ] && [ $GITHUB_TOKEN ] && git push --quiet --force https://$GITHUB_TOKEN@github.com/mugifly/node-jobcan-client.git gh-pages 2> /dev/null'
+  - |
+      PACKAGE_VERSION=$(node -pe 'require("./package.json").version')
+      $(npm bin)/set-up-ssh --key "$encrypted_42099b4af021_key" --iv "$encrypted_42099b4af021_iv" --path-encrypted-key ".travis/deploy_key.enc"
+      $(npm bin)/update-branch --commands "npm run doc" --commit-message "Update documents" --directory "docs/jobcan-client/${PACKAGE_VERSION}/" --distribution-branch "gh-pages" --source-branch "master"
