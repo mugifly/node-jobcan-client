@@ -92,6 +92,84 @@ Client.prototype.auth = function (company_id, group_manager_id, password, callba
 
 
 /**
+ * Get the work states.
+ * @param  {Object}                   [Options]  Optinal parameters
+ * @param  {Client~getWorkStatesCallback} callback   Callback function
+ */
+Client.prototype.getWorkStates = function (opt_options, callback) {
+
+	var self = this;
+
+	var options = extend({}, opt_options || {});
+	options['submit_type'] = options['submit_type'] || 'today';
+	options['searching'] = 1;
+	options['list_type'] = 'normal';
+	options['number_par_page'] = 30;
+	options['group_where_type'] = 'both';
+	options['adit_group_id'] = options['adit_group_id'] || 0; // All places
+	options['retirement'] = options['retirement'] || 'work'; // Not retired
+	options['work_kind%5B0%5D'] = 0;
+	options['group_id'] = options['group_id'] || 0;
+	options['year'] = options['year'] || null;
+	options['month'] = options['month'] || null;
+	options['day'] = options['day'] || null;
+
+	request.get({
+		url: self.BASE_URL + '/client/work-state/show/?' + querystring.stringify(options),
+		followRedirect: false,
+		headers: self.defaultHttpHeaders,
+		jar: true
+	}, function (err, res, body) {
+
+		if (err) return callback(err, null);
+
+		var $ = cheerio.load(body, {
+			decodeEntities: false
+		});
+
+		var $result = $('#wrap-basic-shift-table');
+		$result = $($result.find('table')[1]);
+
+		var items = [];
+		var $trs = $result.find('tr') || [];
+		for (var i = 0, l = $trs.length; i < l; i++) {
+
+			if (i == 0) continue;
+
+			var $tds = $($trs[i]).children('td') || [];
+			if ($($tds[0]).text().length == 0 || $($tds[0]).find('a').text().length == 0) continue;
+
+			var come_time = helper.removeSpaces($($tds[4]).find('div').text().replace(new RegExp(/[^\d:]/g), ''));
+			if (come_time == '') {
+				come_time = null;
+			}
+
+			var out_time = helper.removeSpaces($($tds[5]).find('div').text().replace(new RegExp(/[^\d:]/g), ''));
+			if (out_time == '') {
+				out_time = null;
+			}
+
+			items.push({
+				name: helper.removeSpaces($($tds[0]).find('a').text()),
+				groupName: helper.removeSpaces($($tds[0]).find('font').text()),
+				state: helper.removeSpaces($($tds[2]).text()),
+				comeTime: come_time,
+				outTime: out_time,
+				workTime: helper.convertTimeStrToSeconds(helper.removeSpaces($($tds[6]).text())),
+				breakTime: helper.convertTimeStrToSeconds(helper.removeSpaces($($tds[7]).text())),
+				allowanceYen: (come_time == null) ? null : parseInt($($tds[8]).text().replace(new RegExp(/[^\d]/g), ''))
+			});
+
+		}
+
+		callback(null, items);
+
+	});
+
+};
+
+
+/**
  * Get the work summaries.
  * @param  {Object}                   [Options]  Optinal parameters
  * @param  {Client~getWorkSummariesCallback} callback   Callback function
@@ -241,6 +319,21 @@ Client.prototype.getWorkSummariesInThisWeek = function (opt_options, callback) {
  * @callback Client~authCallback
  * @param {Error} error         Error object (If something happened)
  * @param {String} session_id   Session ID
+ */
+
+/**
+ * Callback of getWorkStates(...) method
+ * @callback Client~getWorkStatesCallback
+ * @param {Error} error         Error object (If something happened)
+ * @param {Object[]} work_states   Array of work states
+ * @param {String} work_states[].name        Name of employee - e.g. 'Taro Tanaka'
+ * @param {String} work_states[].groupName   Group name of employee - e.g. 'Head Office'
+ * @param {String} work_states[].state   State of employee - e.g. '未出勤'
+ * @param {String} work_states[].comeTime   Come time of employee - e.g. '10:00'
+ * @param {String} work_states[].outTime   Out time of employee - e.g. '19:00'
+ * @param {Number} work_states[].workTime    Working time (seconds) - e.g. 28800
+ * @param {Number} work_states[].breakTime   Breaking time (seconds) - e.g. 3600
+ * @param {Number} work_states[].allowanceYen  Allowance of employee (YEN) - e.g. 10500
  */
 
 /**
