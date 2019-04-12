@@ -17,6 +17,7 @@ var helper = require(__dirname + '/models/helper');
  * @class JobCan Client
  * @constructor
  * @param {Object} [options]  Option parameters
+ * @param {Object} [options.defaultHttpHeaders]   Default http headers
  */
 var Client = function (options) {
 
@@ -42,12 +43,12 @@ Client.prototype.auth = function (company_id, group_manager_id, password, callba
 	var self = this;
 
 	request.post({
-		url: self.BASE_URL + '/login/client/try',
+		url: self.BASE_URL + '/login/client',
 		formData: {
 			client_login_id: company_id,
 			client_manager_login_id: group_manager_id,
 			client_login_password: password,
-			url: '/client',
+			url: 'https://ssl.jobcan.jp/client/',
 			login_type: 2
 		},
 		followRedirect: false,
@@ -70,7 +71,18 @@ Client.prototype.auth = function (company_id, group_manager_id, password, callba
 
 		if (!cookies['sid']) return callback(new Error('Could not get session id'), null);
 
-		if (callback) callback(null, cookies['sid']);
+		request.get({
+			url: self.BASE_URL + '/login/client',
+			followRedirect: false,
+			headers: self.defaultHttpHeaders,
+			jar: true
+		}, function (err, res, body) {
+
+			if (err) return callback(err, null);
+
+			if (callback) callback(null, cookies['sid']);
+
+		});
 
 	});
 
