@@ -1,7 +1,9 @@
 docs/
 node_modules/
+.travis/
 .eslintrc
 .eslintignore
 .tern-project
 .travis.yml
 example.js
+package-lock.json
