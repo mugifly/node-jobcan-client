@@ -1,6 +1,6 @@
 {
   "name": "jobcan-client",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Unofficial client library for JobCan",
   "main": "index.js",
   "scripts": {
