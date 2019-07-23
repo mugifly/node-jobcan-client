@@ -25,7 +25,7 @@ Helper.removeSpaces = function (str) {
 
 
 /**
- * Convert the time string to seconds
+ * Convert the time string (N時間N分) to seconds
  * @param {String} str  Source string
  * @param {Number} seconds
  */
