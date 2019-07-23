@@ -137,7 +137,8 @@ Client.prototype.getWorkStates = function (opt_options, callback) {
 			if (i == 0) continue;
 
 			var $tds = $($trs[i]).children('td') || [];
-			if ($($tds[0]).text().length == 0 || $($tds[0]).find('a').text().length == 0) continue;
+
+			if ($($tds[0]).text().length == 0 || $($tds[0]).find('b').text().length == 0) continue;
 
 			var come_time = helper.removeSpaces($($tds[4]).find('div').text().replace(new RegExp(/[^\d:]/g), ''));
 			if (come_time == '') {
@@ -150,7 +151,7 @@ Client.prototype.getWorkStates = function (opt_options, callback) {
 			}
 
 			items.push({
-				name: helper.removeSpaces($($tds[0]).find('a').text()),
+				name: helper.removeSpaces($($tds[0]).find('b').text()),
 				groupName: helper.removeSpaces($($tds[0]).find('font').text()),
 				state: helper.removeSpaces($($tds[2]).text()),
 				comeTime: come_time,
